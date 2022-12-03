@@ -5,10 +5,7 @@ import com.myboard.mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,5 +32,14 @@ public class BoardController {
         boardMapper.boardInsert(board);
         return "redirect:/boardList.do";
     }
+
+    @GetMapping("/boardContent.do")
+    public String boardContent(@RequestParam int idx, Model model){
+        Board board = boardMapper.boardContent(idx);
+        model.addAttribute("vo", board);
+
+        return "boardContent";
+    }
+
 
 }
