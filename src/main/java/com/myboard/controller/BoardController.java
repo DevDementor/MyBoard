@@ -18,16 +18,22 @@ public class BoardController {
     @Autowired
     private BoardMapper boardMapper;
 
-    @RequestMapping("/")
+    @RequestMapping("/boardList.do")
     public String main(Model model){
         List<Board> boardList = boardMapper.getLists();
         model.addAttribute("list", boardList);
-        return "main";
+        return "boardList";
     }
 
     @GetMapping(value = "/boardForm.do")
     public String boardForm(){
         return "boardForm";
+    }
+
+    @PostMapping(value="/boardInsert.do")
+    public String boardInsert(Board board){
+        boardMapper.boardInsert(board);
+        return "redirect:/boardList.do";
     }
 
 }
