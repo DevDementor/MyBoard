@@ -2,6 +2,7 @@ package com.myboard.mapper;
 
 import com.myboard.entity.Board;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -16,5 +17,8 @@ public interface BoardMapper {
     void boardDelete(int idx);
 
     void boardUpdate(Board vo);
+
+    @Update("update myboard set count=count+1 where idx=#{idx}")
+    public void boardCount(int idx);
 }
 

@@ -38,6 +38,8 @@ public class BoardController {
         Board board = boardMapper.boardContent(idx);
         model.addAttribute("vo", board);
 
+        //조회수 증가
+        boardMapper.boardCount(idx);
         return "boardContent";
     }
 
