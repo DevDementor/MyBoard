@@ -14,5 +14,7 @@ public interface BoardMapper {
     Board boardContent(int idx);
 
     void boardDelete(int idx);
+
+    void boardUpdate(Board vo);
 }
 

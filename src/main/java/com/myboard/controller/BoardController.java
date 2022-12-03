@@ -47,10 +47,16 @@ public class BoardController {
         return "redirect:/boardList.do";
     }
 
-    @GetMapping("boardUpdateForm.do")
+    @GetMapping("boardUpdateForm.do/{idx}")
     public String boardUpdateForm(@PathVariable("idx") int idx, Model model){
         Board board = boardMapper.boardContent(idx);
         model.addAttribute("vo", board);
         return "boardUpdate";
+    }
+
+    @PostMapping("boardUpdate.do")
+    public String boardUpdate(Board vo){
+        boardMapper.boardUpdate(vo);
+        return "redirect:/boardList.do";
     }
 }
