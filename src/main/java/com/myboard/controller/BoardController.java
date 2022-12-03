@@ -41,5 +41,16 @@ public class BoardController {
         return "boardContent";
     }
 
+    @GetMapping("/boardDelete.do/{idx}")
+    public String boardDelete(@PathVariable("idx")int idx){
+        boardMapper.boardDelete(idx);
+        return "redirect:/boardList.do";
+    }
 
+    @GetMapping("boardUpdateForm.do")
+    public String boardUpdateForm(@PathVariable("idx") int idx, Model model){
+        Board board = boardMapper.boardContent(idx);
+        model.addAttribute("vo", board);
+        return "boardUpdate";
+    }
 }
