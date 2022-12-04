@@ -15,50 +15,15 @@ public class BoardController {
     @Autowired
     private BoardMapper boardMapper;
 
-    @RequestMapping("/boardList.do")
+    @RequestMapping("/")
     public String main(Model model){
+        return "main";
+    }
+    @GetMapping("/boardList.do")
+    public @ResponseBody List<Board> boardList (Model model){
         List<Board> boardList = boardMapper.getLists();
         model.addAttribute("list", boardList);
-        return "boardList";
-    }
 
-    @GetMapping(value = "/boardForm.do")
-    public String boardForm(){
-        return "boardForm";
-    }
-
-    @PostMapping(value="/boardInsert.do")
-    public String boardInsert(Board board){
-        boardMapper.boardInsert(board);
-        return "redirect:/boardList.do";
-    }
-
-    @GetMapping("/boardContent.do")
-    public String boardContent(@RequestParam int idx, Model model){
-        Board board = boardMapper.boardContent(idx);
-        model.addAttribute("vo", board);
-
-        //조회수 증가
-        boardMapper.boardCount(idx);
-        return "boardContent";
-    }
-
-    @GetMapping("/boardDelete.do/{idx}")
-    public String boardDelete(@PathVariable("idx")int idx){
-        boardMapper.boardDelete(idx);
-        return "redirect:/boardList.do";
-    }
-
-    @GetMapping("boardUpdateForm.do/{idx}")
-    public String boardUpdateForm(@PathVariable("idx") int idx, Model model){
-        Board board = boardMapper.boardContent(idx);
-        model.addAttribute("vo", board);
-        return "boardUpdate";
-    }
-
-    @PostMapping("boardUpdate.do")
-    public String boardUpdate(Board vo){
-        boardMapper.boardUpdate(vo);
-        return "redirect:/boardList.do";
+        return boardList;
     }
 }
