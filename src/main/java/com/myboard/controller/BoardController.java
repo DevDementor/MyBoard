@@ -26,4 +26,10 @@ public class BoardController {
 
         return boardList;
     }
+
+    @PostMapping("/boardInsert.do")
+    public String boardInsert(Board board){
+        boardMapper.boardInsert(board);
+        return "redirect:/boardList.do";
+    }
 }
