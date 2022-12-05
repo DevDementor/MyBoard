@@ -42,28 +42,60 @@
             $.each(data, function (index, obj){
                 listHtml += "<tr>";
                 listHtml += "<td>"+obj.idx+"</td>";
-                listHtml += "<td>"+obj.title+"</td>";
+                listHtml += "<td><a href='javascript:goContent("+obj.idx+")'>"+obj.title+"</td>";
                 listHtml += "<td>"+obj.writer+"</td>";
                 listHtml += "<td>"+obj.indate+"</td>";
                 listHtml += "</tr>"
+
+                listHtml+="<tr id='c"+obj.idx+"' style='display:none'>";
+                listHtml+="<td>내용</td>";
+                listHtml+="<td colspan='4'>";
+                listHtml+="<textarea id='ta"+obj.idx+"' readonly rows='7' class='form-control'>"+obj.content+"</textarea>";
+                listHtml+="<br/>";
+                listHtml+="</td>";
+                listHtml+="</tr>";
             })
-            listHtml+="<tr>";
-            listHtml+="<td colspan='5'>";
-            listHtml+="<button class='btn btn-primary btn-sm' onclick='goForm()'>글쓰기</button>";
-            listHtml+="</td>";
-            listHtml+="</tr>";
-            listHtml+="</table>";
+
+
+            listHtml += "<tr>";
+            listHtml += "<td colspan='5'>";
+            listHtml += "<button class='btn btn-primary btn-sm' onclick='goForm()'>글쓰기</button>";
+            listHtml += "</td>";
+            listHtml += "</tr>";
+            listHtml += "</table>";
             $("#view").html(listHtml);
         }
 
-        function goForm(){
+        function goForm() {
             $("#view").css('display', 'none');
             $("#wform").css('display', 'block');
         }
 
-        function goList(){
+        function goList() {
             $("#view").css('display', 'block');
             $("#wform").css('display', 'none');
+        }
+
+        function goInsert() {
+            var formData = $("#frm").serialize();
+            $.ajax({
+                url: "boardInsert.do",
+                type: "post",
+                data: formData,
+                success: loadList,
+                error: function () {
+                    alert("boardInsert.do Fail");
+                }
+            });
+
+            // $("#title").val("");
+            // $("#content").val("");
+            // $("#writer").val("");
+            $("#fclear").trigger("click");
+        }
+
+        function goContent(idx){
+            $("#c"+idx).css("display", "table-row");
         }
 
     </script>
@@ -76,24 +108,24 @@
         <div class="panel-heading">BOARD</div>
         <div class="panel-body" id="view">Panel Content</div>
         <div class="panel-body" id="wform">
-            <form action="boardInsert.do" method="post">
+            <form id="frm">
                 <table class="table">
                     <tr>
                         <td>제목</td>
-                        <td><input type="text" name="title" class="form-control"/></td>
+                        <td><input type="text" id="title" name="title" class="form-control"/></td>
                     </tr>
                     <tr>
                         <td>내용</td>
-                        <td><textarea rows="7" class="form-control" name="content"></textarea></td>
+                        <td><textarea rows="7" id="content" name="content" class="form-control" ></textarea></td>
                     </tr>
                     <tr>
                         <td>작성자</td>
-                        <td><input type="text" name="writer" class="form-control"/></td>
+                        <td><input type="text" id="writer" name="writer" class="form-control"/></td>
                     </tr>
                     <tr>
                         <td colspan="2" align="center">
-                            <button type="submit" class="btn btn-success btn-sm">등록</button>
-                            <button type="reset" class="btn btn-warning btn-sm">취소</button>
+                            <button type="button" class="btn btn-success btn-sm" onclick="goInsert()">등록</button>
+                            <button type="reset" class="btn btn-warning btn-sm" id = "fclear">취소</button>
                             <button type="button" class="btn btn-info btn-sm" onclick="goList()">리스트</button>
                         </td>
                     </tr>
