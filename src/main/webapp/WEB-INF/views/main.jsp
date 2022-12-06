@@ -42,7 +42,7 @@
             $.each(data, function (index, obj){
                 listHtml += "<tr>";
                 listHtml += "<td>"+obj.idx+"</td>";
-                listHtml += "<td><a href='javascript:goContent("+obj.idx+")'>"+obj.title+"</td>";
+                listHtml += "<td id='title_"+obj.idx+"'><a href='javascript:goContent("+obj.idx+")'>"+obj.title+"</td>";
                 listHtml += "<td>"+obj.writer+"</td>";
                 listHtml += "<td>"+obj.indate+"</td>";
                 listHtml += "</tr>"
@@ -52,6 +52,8 @@
                 listHtml+="<td colspan='4'>";
                 listHtml+="<textarea id='ta"+obj.idx+"' readonly rows='7' class='form-control'>"+obj.content+"</textarea>";
                 listHtml+="<br/>";
+                listHtml+="<span id='ub"+obj.idx+"'><button class='btn btn-success btn-sm' onclick='goUpdateForm("+obj.idx+")'>수정화면</button></span>&nbsp;";
+                listHtml+="<button class='btn btn-warning btn-sm' onclick='goDelete("+obj.idx+")'>삭제</button>";
                 listHtml+="</td>";
                 listHtml+="</tr>";
             })
@@ -87,17 +89,45 @@
                     alert("boardInsert.do Fail");
                 }
             });
-
-            // $("#title").val("");
-            // $("#content").val("");
-            // $("#writer").val("");
             $("#fclear").trigger("click");
         }
 
         function goContent(idx){
-            $("#c"+idx).css("display", "table-row");
+            if($("#c"+idx).css("display") == "none") {
+                $("#c" + idx).css("display", "table-row");
+            }else{
+                $("#c" + idx).css("display", "none");
+            }
         }
 
+        function goDelete(idx){
+            $.ajax({
+                url :"boardDelete.do",
+                type :"get",
+                data :{"idx":idx},
+                success : loadList,
+                error : function (){
+                    alert("boardDelete.do Fail");
+                }
+            });
+        }
+        function goUpdateForm(idx){
+            //제목의 태그를 input type으로 변경
+            let title = $("#title_"+idx).text();
+            let newTitle = "<input type='text' id='newTitle' class='form-control' value='"+title+"'></input>"
+            $("#title_"+idx).html(newTitle);
+
+            //내용 수정 가능하게 readonly = false
+            $("#ta"+idx).attr("readonly",false);
+
+            //'수정화면' -> '수정'으로 버튼 변경
+            let updateBtn = "<button class='btn btn-success btn-sm' onclick='goUpdate("+idx+")'>수정</button>"
+            $("#ub"+idx).html(updateBtn);
+        }
+
+        function goUpdate(idx){
+
+        }
     </script>
 </head>
 <body>

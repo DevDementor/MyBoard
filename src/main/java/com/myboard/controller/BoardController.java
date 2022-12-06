@@ -28,8 +28,13 @@ public class BoardController {
     }
 
     @PostMapping("/boardInsert.do")
-    public String boardInsert(Board board){
+    public @ResponseBody void boardInsert(Board board){
         boardMapper.boardInsert(board);
-        return "redirect:/boardList.do";
+//        return "redirect:/boardList.do";
+    }
+
+    @GetMapping("/boardDelete.do")
+    public @ResponseBody void boardDelete(@RequestParam("idx")int idx){
+        boardMapper.boardDelete(idx);
     }
 }
