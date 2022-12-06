@@ -38,5 +38,11 @@ public class BoardController {
         boardMapper.boardDelete(idx);
     }
 
+    @PostMapping("/boardUpdate.do")
+    @ResponseBody
+    public void boardUpdate(Board vo){
+        boardMapper.boardUpdate(vo);
+    }
+
     //Reabse Test
 }
