@@ -37,6 +37,7 @@
             listHtml += "<td>제목</td>";
             listHtml += "<td>작성자</td>";
             listHtml += "<td>작성일</td>";
+            listHtml += "<td>조회수</td>"
             listHtml += "</tr>"
 
             $.each(data, function (index, obj){
@@ -45,20 +46,19 @@
                 listHtml += "<td id='title_"+obj.idx+"'><a href='javascript:goContent("+obj.idx+")'>"+obj.title+"</td>";
                 listHtml += "<td>"+obj.writer+"</td>";
                 listHtml += "<td>"+obj.indate+"</td>";
+                listHtml += "<td id='count_"+obj.idx+"'>"+obj.count+"</td>";
                 listHtml += "</tr>"
 
                 listHtml+="<tr id='c"+obj.idx+"' style='display:none'>";
                 listHtml+="<td>내용</td>";
                 listHtml+="<td colspan='4'>";
-                listHtml+="<textarea id='ta"+obj.idx+"' readonly rows='7' class='form-control'>"+obj.content+"</textarea>";
+                listHtml+="<textarea id='ta"+obj.idx+"' readonly rows='7' class='form-control'></textarea>";
                 listHtml+="<br/>";
                 listHtml+="<span id='ub"+obj.idx+"'><button class='btn btn-success btn-sm' onclick='goUpdateForm("+obj.idx+")'>수정화면</button></span>&nbsp;";
                 listHtml+="<button class='btn btn-warning btn-sm' onclick='goDelete("+obj.idx+")'>삭제</button>";
                 listHtml+="</td>";
                 listHtml+="</tr>";
             })
-
-
             listHtml += "<tr>";
             listHtml += "<td colspan='5'>";
             listHtml += "<button class='btn btn-primary btn-sm' onclick='goForm()'>글쓰기</button>";
@@ -93,9 +93,38 @@
         }
 
         function goContent(idx){
-            if($("#c"+idx).css("display") == "none") {
+
+            if($("#c"+idx).css("display") == "none") {//내용 열림
                 $("#c" + idx).css("display", "table-row");
-            }else{
+
+                //내용 가져오기
+                $.ajax({
+                    url : '/boardContent.do',
+                    type : 'get',
+                    data : {"idx" : idx},
+                    success : function (data){
+                        console.log(data);
+                        $("#ta"+idx).text(data.content);
+                    },
+                    error : function (){
+                        alert("Fail to get boardContent.do");
+                    }
+
+                });
+
+                //카운트
+                $.ajax({
+                    url : '/boardCount.do',
+                    type : 'get',
+                    data : {"idx":idx},
+                    success : function (data){
+                        $("#count_"+idx).text(data.count);
+                    },
+                    error : function(){
+                        alert("Fail to get boardCount");
+                    }
+                });
+            }else{//내용 닫힘
                 $("#c" + idx).css("display", "none");
             }
         }
