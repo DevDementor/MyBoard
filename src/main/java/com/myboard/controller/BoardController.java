@@ -27,6 +27,16 @@ public class BoardController {
         return boardList;
     }
 
+    @PostMapping("/boardInsert.do")
+    public @ResponseBody void boardInsert(Board board){
+        boardMapper.boardInsert(board);
+//        return "redirect:/boardList.do";
+    }
+
+    @GetMapping("/boardDelete.do")
+    public @ResponseBody void boardDelete(@RequestParam("idx")int idx){
+        boardMapper.boardDelete(idx);
+    }
 
     //Reabse Test
 }
