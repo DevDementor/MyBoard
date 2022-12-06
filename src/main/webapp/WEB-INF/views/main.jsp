@@ -114,7 +114,7 @@
         function goUpdateForm(idx){
             //제목의 태그를 input type으로 변경
             let title = $("#title_"+idx).text();
-            let newTitle = "<input type='text' id='newTitle' class='form-control' value='"+title+"'></input>"
+            let newTitle = "<input type='text' id='newTitle_"+idx+"' class='form-control' value='"+title+"'></input>"
             $("#title_"+idx).html(newTitle);
 
             //내용 수정 가능하게 readonly = false
@@ -126,7 +126,18 @@
         }
 
         function goUpdate(idx){
+            let title = $("#newTitle_"+idx).val();
+            let content = $("#ta"+idx).val();
 
+            $.ajax({
+                url : "/boardUpdate.do",
+                type : "post",
+                data  : {"idx":idx, "title" : title, "content" : content},
+                success : loadList,
+                error  : function(){
+                    alert("boardUpdate Fail");
+                }
+            })
         }
     </script>
 </head>
