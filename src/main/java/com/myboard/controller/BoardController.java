@@ -43,4 +43,19 @@ public class BoardController {
     public void boardUpdate(Board vo){
         boardMapper.boardUpdate(vo);
     }
+
+    @GetMapping("/boardContent.do")
+    @ResponseBody
+    public Board boardContent(int idx){
+        Board board = boardMapper.boardContent(idx);
+        return board;
+    }
+
+    @GetMapping("/boardCount.do")
+    @ResponseBody
+    public Board boardCount(int idx){
+        boardMapper.boardCount(idx);
+        Board board = boardMapper.boardContent(idx);
+        return board;
+    }
 }
