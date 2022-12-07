@@ -61,4 +61,7 @@ public class BoardController {
         boardMapper.boardUpdate(vo);
         return "redirect:/boardList.do";
     }
+
+
+    //Reabse Test
 }
