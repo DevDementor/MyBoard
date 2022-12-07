@@ -19,11 +19,11 @@
         function loadList() {
             goList();
             $.ajax({
-                url: "boardList.do",
+                url: "/board/all",
                 action: "get",
                 success: makeList,
                 error: function () {
-                    alert("boardList.do GET Fail");
+                    alert("all GET Fail");
                 }
             });
         }
@@ -81,12 +81,12 @@
         function goInsert() {
             var formData = $("#frm").serialize();
             $.ajax({
-                url: "boardInsert.do",
+                url: "/board/new",
                 type: "post",
                 data: formData,
                 success: loadList,
                 error: function () {
-                    alert("boardInsert.do Fail");
+                    alert("/new Fail");
                 }
             });
             $("#fclear").trigger("click");
@@ -99,9 +99,9 @@
 
                 //내용 가져오기
                 $.ajax({
-                    url : '/boardContent.do',
+                    url : '/board/'+idx,
                     type : 'get',
-                    data : {"idx" : idx},
+                    dataType : 'json',
                     success : function (data){
                         console.log(data);
                         $("#ta"+idx).text(data.content);
@@ -114,9 +114,9 @@
 
                 //카운트
                 $.ajax({
-                    url : '/boardCount.do',
-                    type : 'get',
-                    data : {"idx":idx},
+                    url : '/board/count/'+idx,
+                    type : 'put',
+                    dataType: 'json',
                     success : function (data){
                         $("#count_"+idx).text(data.count);
                     },
@@ -131,9 +131,8 @@
 
         function goDelete(idx){
             $.ajax({
-                url :"boardDelete.do",
-                type :"get",
-                data :{"idx":idx},
+                url :"/board/"+idx,
+                type :"delete",
                 success : loadList,
                 error : function (){
                     alert("boardDelete.do Fail");
@@ -159,9 +158,10 @@
             let content = $("#ta"+idx).val();
 
             $.ajax({
-                url : "/boardUpdate.do",
-                type : "post",
-                data  : {"idx":idx, "title" : title, "content" : content},
+                url : "/board/update",
+                type : "put",
+                contentType: 'application/json;charset=utf-8',
+                data  : JSON.stringify({"idx":idx, "title" : title, "content" : content}),
                 success : loadList,
                 error  : function(){
                     alert("boardUpdate Fail");
