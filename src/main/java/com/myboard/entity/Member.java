@@ -3,7 +3,7 @@ package com.myboard.entity;
 import lombok.Data;
 
 @Data
-public class Memeber {
+public class Member {
     private int memIdx;
     private String memID;
     private String memPassword;

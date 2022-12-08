@@ -11,6 +11,35 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        function registerCheck() {
+            let memId = $("#memID").val();
+            //TODO
+            //1. 아이디 null 체크
+            //2. 정규 표현식
+
+            $.ajax({
+                url: "memRegisterCheck.do",
+                type: "get",
+                data: {"memId": memId},
+                success: function (result) {
+                    // 중복유무 출력(result=1 : 사용할수있는 아이디, 0 : 사용할수없는 아이디)
+                    if(result==1){
+                        $("#checkMessage").html("사용할 수 있는 아이디입니다.");
+                        $("#checkType").attr("class","modal-content panel-success");
+                    }else{
+                        $("#checkMessage").html("사용할 수 없는 아이디입니다.");
+                        $("#checkType").attr("class","modal-content panel-warning");
+                    }
+                    $("#myModal").modal("show");
+                },
+                error: function () {
+
+                }
+            })
+        }
+    </script>
+
 </head>
 <body>
 <div class="container">
@@ -82,6 +111,23 @@
             </form>
         </div>
         <div class="panel-footer pull-right">회원가입 양식</div>
+    </div>
+</div>
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div id="checkType" class="modal-content panel-info">
+            <div class="modal-header panel-heading">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">메세지 확인</h4>
+            </div>
+            <div class="modal-body">
+                <p id="checkMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
 </div>
 
