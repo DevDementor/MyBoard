@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class MemberController {
@@ -20,13 +23,45 @@ public class MemberController {
     }
 
     @RequestMapping("/memRegisterCheck.do")
-    public @ResponseBody int memRegisterCheck(@RequestParam String memId){
+    public @ResponseBody
+    int memRegisterCheck(@RequestParam String memId) {
         Member member = memberMapper.memRegisterCheck(memId);
 
-        if(member != null || memId.equals("")){
+        if (member != null || memId.equals("")) {
             return 0;
         }
-
         return 1;
+    }
+
+    @RequestMapping("/memRegister.do")
+    public String memRegister(Member member, String memPassword, String memPassword2, RedirectAttributes rttr, HttpSession session) {
+        if (member.getMemId() == null || member.getMemId().equals("") || memPassword == null || memPassword.equals("") || memPassword2 == null || memPassword2.equals("") || member.getMemName() == null || member.getMemName().equals("") || member.getMemAge() == 0 || member.getMemGender() == null || member.getMemGender().equals("") || member.getMemEmail() == null || member.getMemEmail().equals("")) {
+            // 누락메세지를 가지고 가기? =>객체바인딩(Model, HttpServletRequest, HttpSession)
+            rttr.addFlashAttribute("msgType", "실패 메세지");
+            rttr.addFlashAttribute("msg", "모든 내용을 입력하세요.");
+            return "redirect:/memJoin.do";
+        }
+
+        if(!memPassword.equals(memPassword2)){
+            rttr.addFlashAttribute("msgType", "비밀번호가 다릅니다");
+            rttr.addFlashAttribute("msg", "같은 비밀번호를 입력하세요.");
+            return "redirect:/memJoin.do";
+        }
+
+        member.setMemProfile("");
+
+        int registerResult = memberMapper.memberRegister(member);
+
+        if(registerResult == 1){//가입 성공
+            rttr.addFlashAttribute("msgType","성공 메세지");
+            rttr.addFlashAttribute("msg","회원 가입에 성공했습니다.");
+
+            session.setAttribute("mvo", member);
+            return "redirect:/";
+        }else{
+            rttr.addFlashAttribute("msgType", "실패 메세지");
+            rttr.addFlashAttribute("msg", "이미 존재하는 회원입니다.");
+            return "redirect:/memJoin.do";
+        }
     }
 }
