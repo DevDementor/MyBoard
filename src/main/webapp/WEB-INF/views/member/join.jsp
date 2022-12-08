@@ -29,6 +29,55 @@
                             <button type="button" class="btn btn-primary btn-sm" onclick="registerCheck()">중복확인</button>
                         </td>
                     </tr>
+                    <tr>
+                        <td style="width: 110px; vertical-align: middle;">비밀번호</td>
+                        <td colspan="2"><input id="memPassword1" name="memPassword1" onkeyup="passwordCheck()"
+                                               class="form-control" type="password" maxlength="20"
+                                               placeholder="비밀번호를 입력하세요."/></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 110px; vertical-align: middle;">비밀번호확인</td>
+                        <td colspan="2"><input id="memPassword2" name="memPassword2" onkeyup="passwordCheck()"
+                                               class="form-control" type="password" maxlength="20"
+                                               placeholder="비밀번호를 확인하세요."/></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 110px; vertical-align: middle;">사용자 이름</td>
+                        <td colspan="2"><input id="memName" name="memName" class="form-control" type="text"
+                                               maxlength="20" placeholder="이름을 입력하세요."/></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 110px; vertical-align: middle;">나이</td>
+                        <td colspan="2"><input id="memAge" name="memAge" class="form-control" type="number"
+                                               maxlength="20" placeholder="나이를 입력하세요."/></td>
+                    </tr>
+                    <tr>
+                        <td style="width: 110px; vertical-align: middle;">성별</td>
+                        <td colspan="2">
+                            <div class="form-group" style="text-align: center; margin: 0 auto;">
+                                <div class="btn-group" data-toggle="buttons">
+                                    <label class="btn btn-primary active">
+                                        <input type="radio" name="memGender" autocomplete="off" value="남자" checked/>남자
+                                    </label>
+                                    <label class="btn btn-primary">
+                                        <input type="radio" name="memGender" autocomplete="off" value="여자"/>여자
+                                    </label>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 110px; vertical-align: middle;">이메일</td>
+                        <td colspan="2"><input id="memEmail" name="memEmail" class="form-control" type="text"
+                                               maxlength="20" placeholder="이메일을 입력하세요."/></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="text-align: left;">
+                            <span id="passMessage" style="color: red"></span><input type="button"
+                                                                                    class="btn btn-primary btn-sm pull-right"
+                                                                                    value="등록" onclick="goInsert()"/>
+                        </td>
+                    </tr>
                 </table>
             </form>
         </div>
