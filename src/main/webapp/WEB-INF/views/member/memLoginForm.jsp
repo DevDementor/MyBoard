@@ -27,7 +27,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">Panel Heading</div>
         <div class="panel-body">
-            <form action="" method="post">
+            <form action="${contextPath}/memLogin.do" method="POST">
                 <input type="hidden" id="memPassword" name="memPassword" value=""/>
                 <table>
                     <tr>
@@ -37,7 +37,7 @@
                     </tr>
                     <tr>
                         <td style="width: 110px; vertical-align: middle;">비밀번호</td>
-                        <td colspan="2"><input id="memPassword1" name="memPassword1"
+                        <td colspan="2"><input id="password" name="password"
                                                class="form-control" type="password" maxlength="20"
                                                placeholder="비밀번호를 입력하세요."/></td>
                     </tr>

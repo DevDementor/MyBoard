@@ -5,6 +5,7 @@ import com.myboard.mapper.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -66,13 +67,37 @@ public class MemberController {
     }
 
     @RequestMapping("/memLogout.do")
-    public String memLogout(HttpSession session){
+    public String memLogout(HttpSession session) {
         session.invalidate();
         return "redirect:/";
     }
 
     @RequestMapping("/memLoginForm.do")
-    public String memLoginForm(){
+    public String memLoginForm() {
         return "member/memLoginForm";
+    }
+
+    @RequestMapping(value = "/memLogin.do", method = RequestMethod.POST)
+    public String memLogin(String memId, String password, RedirectAttributes rttr, HttpSession session) {
+        //유효성 체크
+        if (memId == null || memId.equals("") || password == null || password.equals("")) {
+            rttr.addFlashAttribute("msgType", "로그인 실패.");
+            rttr.addFlashAttribute("msg", "유효한 값을 입력하세요.");
+            return "redirect:/memLoginForm.do";
+        }
+
+        //로그인 성공 유무 분기 처리
+        Member member = memberMapper.memLogin(memId, password);
+
+        if(member != null) {
+            session.setAttribute("mvo", member);
+            rttr.addFlashAttribute("msgType", "로그인 성공.");
+            rttr.addFlashAttribute("msg", "로그인에 성공하였습니다.");
+            return "redirect:/";
+        }else{
+            rttr.addFlashAttribute("msgType", "로그인 실패.");
+            rttr.addFlashAttribute("msg", "로그인에 실패하였습니다.");
+            return "redirect:/memLoginForm.do";
+        }
     }
 }

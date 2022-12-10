@@ -11,4 +11,11 @@
         insert into mem_tbl(memId, memPassword, memName, memAge, memGender, memEmail, memProfile)
         values (#{memId}, #{memPassword}, #{memName}, #{memAge}, #{memGender}, #{memEmail}, #{memProfile})
     </insert>
+
+    <select id="memLogin" resultType="com.myboard.entity.Member">
+        select *
+        from mem_tbl
+        where memId = #{memId}
+          and memPassword = #{password}
+    </select>
 </mapper>

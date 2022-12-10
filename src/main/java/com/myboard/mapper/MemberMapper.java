@@ -8,4 +8,6 @@ public interface MemberMapper {
     public Member memRegisterCheck(String memId);
 
     public int memberRegister(Member member);
+
+    public Member memLogin(String memId, String password);
 }
