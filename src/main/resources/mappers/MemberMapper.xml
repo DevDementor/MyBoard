@@ -18,4 +18,14 @@
         where memId = #{memId}
           and memPassword = #{password}
     </select>
+
+    <update id="memUpdate" parameterType="com.myboard.entity.Member">
+        update mem_tbl
+        set memPassword=#{memPassword},
+            memName=#{memName},
+            memAge=#{memAge},
+            memGender=#{memGender},
+            memEmail=#{memEmail}
+        where memId = #{memId}
+    </update>
 </mapper>

@@ -10,4 +10,6 @@ public interface MemberMapper {
     public int memberRegister(Member member);
 
     public Member memLogin(String memId, String password);
+
+    public int memUpdate(Member m);
 }
