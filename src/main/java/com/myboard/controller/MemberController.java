@@ -64,4 +64,15 @@ public class MemberController {
             return "redirect:/memJoin.do";
         }
     }
+
+    @RequestMapping("/memLogout.do")
+    public String memLogout(HttpSession session){
+        session.invalidate();
+        return "redirect:/";
+    }
+
+    @RequestMapping("/memLoginForm.do")
+    public String memLoginForm(){
+        return "member/memLoginForm";
+    }
 }
