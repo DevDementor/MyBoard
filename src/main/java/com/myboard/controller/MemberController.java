@@ -94,10 +94,17 @@ public class MemberController {
             rttr.addFlashAttribute("msgType", "로그인 성공.");
             rttr.addFlashAttribute("msg", "로그인에 성공하였습니다.");
             return "redirect:/";
-        }else{
+        } else {
             rttr.addFlashAttribute("msgType", "로그인 실패.");
             rttr.addFlashAttribute("msg", "로그인에 실패하였습니다.");
             return "redirect:/memLoginForm.do";
         }
     }
+
+    @RequestMapping("/memUpdateForm.do")
+    public String memUpdateForm() {
+        return "member/memUpdateForm_1";
+    }
+
+
 }
