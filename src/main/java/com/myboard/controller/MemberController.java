@@ -153,7 +153,7 @@ public class MemberController {
     }
 
     @RequestMapping("/memImageUpdate.do")
-    public String memImageUpdate(HttpServletRequest request, RedirectAttributes rttr) throws IOException {
+    public String memImageUpdate(HttpServletRequest request, HttpSession session, RedirectAttributes rttr) throws IOException {
         // 파일업로드 API(cos.jar, 3가지)
         MultipartRequest multi=null;
         int fileMaxSize=10*1024*1024; // 10MB
@@ -191,6 +191,17 @@ public class MemberController {
                 rttr.addFlashAttribute("msg", "이미지 파일만 업로드 가능합니다.");
                 return "redirect:/memImageForm.do";
             }
+
+            Member mvo=new Member();
+            mvo.setMemId(memId);
+            mvo.setMemProfile(newProfile);
+            memberMapper.memProfileUpdate(mvo); // 이미지 업데이트 성공
+            Member m=memberMapper.getMember(memId);
+            // 세션을 새롭게 생성한다.
+            session.setAttribute("mvo", m);
+            rttr.addFlashAttribute("msgType", "성공 메세지");
+            rttr.addFlashAttribute("msg", "이미지 변경이 성공했습니다.");
+            return "redirect:/";
         }
 
         return "";
