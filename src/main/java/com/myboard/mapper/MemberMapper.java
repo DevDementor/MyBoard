@@ -12,4 +12,6 @@ public interface MemberMapper {
     public Member memLogin(String memId, String password);
 
     public int memUpdate(Member m);
+
+    public Member getMember(String memID);
 }

@@ -28,4 +28,8 @@
             memEmail=#{memEmail}
         where memId = #{memId}
     </update>
+
+    <select id="getMember" resultType="kr.myboard.entity.Member">
+        select * from mem_tbl where memID=#{memID}
+    </select>
 </mapper>
