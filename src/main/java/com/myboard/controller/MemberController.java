@@ -141,4 +141,9 @@ public class MemberController {
             return "redirect:/memUpdateForm.do";
         }
     }
+
+    @RequestMapping("/memImageForm.do")
+    public String memImageForm(){
+        return "member/memImageForm";
+    }
 }
