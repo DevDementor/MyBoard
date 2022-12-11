@@ -1,6 +1,6 @@
 create table myboard(
 	idx int not null auto_increment,
-	memID varchar(20) not null,
+	memId varchar(20) not null,
 	title varchar(100) not null,
 	content varchar(2000) not null,
 	writer varchar(30) not null,

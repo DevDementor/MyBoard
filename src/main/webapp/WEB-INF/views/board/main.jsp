@@ -44,27 +44,38 @@
                 listHtml += "<tr>";
                 listHtml += "<td>"+obj.idx+"</td>";
                 listHtml += "<td id='title_"+obj.idx+"'><a href='javascript:goContent("+obj.idx+")'>"+obj.title+"</td>";
-                listHtml += "<td>"+obj.writer+"</td>";
-                listHtml += "<td>"+obj.indate+"</td>";
-                listHtml += "<td id='count_"+obj.idx+"'>"+obj.count+"</td>";
+                listHtml += "<td>" + obj.writer + "</td>";
+                listHtml += "<td>" + obj.indate + "</td>";
+                listHtml += "<td id='count_" + obj.idx + "'>" + obj.count + "</td>";
                 listHtml += "</tr>"
 
-                listHtml+="<tr id='c"+obj.idx+"' style='display:none'>";
-                listHtml+="<td>내용</td>";
-                listHtml+="<td colspan='4'>";
-                listHtml+="<textarea id='ta"+obj.idx+"' readonly rows='7' class='form-control'></textarea>";
-                listHtml+="<br/>";
-                listHtml+="<span id='ub"+obj.idx+"'><button class='btn btn-success btn-sm' onclick='goUpdateForm("+obj.idx+")'>수정화면</button></span>&nbsp;";
-                listHtml+="<button class='btn btn-warning btn-sm' onclick='goDelete("+obj.idx+")'>삭제</button>";
-                listHtml+="</td>";
-                listHtml+="</tr>";
+                listHtml += "<tr id='c" + obj.idx + "' style='display:none'>";
+                listHtml += "<td>내용</td>";
+                listHtml += "<td colspan='4'>";
+                listHtml += "<textarea id='ta" + obj.idx + "' readonly rows='7' class='form-control'></textarea>";
+                listHtml += "<br/>";
+                if ("${mvo.memId}" == obj.memId) {
+                    listHtml += "<br/>";
+                    listHtml += "<span id='ub" + obj.idx + "'><button class='btn btn-success btn-sm' onclick='goUpdateForm(" + obj.idx + ")'>수정화면</button></span>&nbsp;";
+                    listHtml += "<button class='btn btn-warning btn-sm' onclick='goDelete(" + obj.idx + ")'>삭제</button>";
+                } else {
+                    listHtml += "<br/>";
+                    listHtml += "<span id='ub" + obj.idx + "'><button disabled class='btn btn-success btn-sm' onclick='goUpdateForm(" + obj.idx + ")'>수정화면</button></span>&nbsp;";
+                    listHtml += "<button disabled class='btn btn-warning btn-sm' onclick='goDelete(" + obj.idx + ")'>삭제</button>";
+                }
+                listHtml += "</td>";
+                listHtml += "</tr>";
             })
-            listHtml += "<tr>";
-            listHtml += "<td colspan='5'>";
-            listHtml += "<button class='btn btn-primary btn-sm' onclick='goForm()'>글쓰기</button>";
-            listHtml += "</td>";
-            listHtml += "</tr>";
+            if (${!empty mvo}) {
+                listHtml += "<tr>";
+                listHtml += "<td colspan='5'>";
+                listHtml += "<button class='btn btn-primary btn-sm' onclick='goForm()'>글쓰기</button>";
+                listHtml += "</td>";
+                listHtml += "</tr>";
+            }
+
             listHtml += "</table>";
+
             $("#view").html(listHtml);
         }
 
@@ -186,16 +197,18 @@
                     </tr>
                     <tr>
                         <td>내용</td>
-                        <td><textarea rows="7" id="content" name="content" class="form-control" ></textarea></td>
+                        <td><textarea rows="7" id="content" name="content" class="form-control"></textarea></td>
                     </tr>
                     <tr>
                         <td>작성자</td>
-                        <td><input type="text" id="writer" name="writer" class="form-control"/></td>
+                        <td>작성자</td>
+                        <td><input type="text" id="writer" name="writer" class="form-control" value="${mvo.memName}"
+                                   readonly="readonly"/></td>
                     </tr>
                     <tr>
                         <td colspan="2" align="center">
                             <button type="button" class="btn btn-success btn-sm" onclick="goInsert()">등록</button>
-                            <button type="reset" class="btn btn-warning btn-sm" id = "fclear">취소</button>
+                            <button type="reset" class="btn btn-warning btn-sm" id="fclear">취소</button>
                             <button type="button" class="btn btn-info btn-sm" onclick="goList()">리스트</button>
                         </td>
                     </tr>
