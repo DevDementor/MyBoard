@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myboard.mapper.MemberMapper">
+    <select id="memRegisterCheck" resultType="com.myboard.entity.Member">
+        select *
+        from mem_tbl
+        where memId = #{memId}
+    </select>
+
+    <insert id="memberRegister" parameterType="com.myboard.entity.Member">
+        insert into mem_tbl(memId, memPassword, memName, memAge, memGender, memEmail, memProfile)
+        values (#{memId}, #{memPassword}, #{memName}, #{memAge}, #{memGender}, #{memEmail}, #{memProfile})
+    </insert>
+
+    <select id="memLogin" resultType="com.myboard.entity.Member">
+        select *
+        from mem_tbl
+        where memId = #{memId}
+          and memPassword = #{password}
+    </select>
+
+    <update id="memUpdate" parameterType="com.myboard.entity.Member">
+        update mem_tbl
+        set memPassword=#{memPassword},
+            memName=#{memName},
+            memAge=#{memAge},
+            memGender=#{memGender},
+            memEmail=#{memEmail}
+        where memId = #{memId}
+    </update>
+
+    <select id="getMember" resultType="kr.myboard.entity.Member">
+        select * from mem_tbl where memID=#{memID}
+    </select>
+
+    <update id="memProfileUpdate" parameterType="kr.board.entity.Member">
+        update mem_tbl set memProfile=#{memProfile} where memID=#{memID}
+    </update>
+</mapper>
