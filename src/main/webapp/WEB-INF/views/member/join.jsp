@@ -63,6 +63,7 @@
         <div class="panel-heading">Panel Heading</div>
         <div class="panel-body">
             <form action="memRegister.do" method="post">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 <input type="hidden" id="memPassword" name="memPassword" value=""/>
                 <table>
                     <tr>

@@ -12,6 +12,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script type="text/javascript">
+        var csrfHeaderName = "${_csrf.headerName}";
+        var csrfTokenValue = "${_csrf.token}";
         $(document).ready(function () {
             loadList();
         });
@@ -95,6 +97,9 @@
                 url: "/board/new",
                 type: "post",
                 data: formData,
+                beforeSend: function(xhr){
+                    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue)
+                },
                 success: loadList,
                 error: function () {
                     alert("/new Fail");
@@ -137,6 +142,18 @@
                 });
             }else{//내용 닫힘
                 $("#c" + idx).css("display", "none");
+                $.ajax({
+                    url : "board/count/"+idx,
+                    type : "put",
+                    dataType : "json",
+                    beforeSend: function(xhr){
+                        xhr.setRequestHeader(csrfHeaderName, csrfTokenValue)
+                    },
+                    success : function(data){
+                        $("#cnt"+idx).text(data.count);
+                    },
+                    error : function(){ alert("error"); }
+                });
             }
         }
 
@@ -144,6 +161,9 @@
             $.ajax({
                 url :"/board/"+idx,
                 type :"delete",
+                beforeSend: function(xhr){
+                    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue)
+                },
                 success : loadList,
                 error : function (){
                     alert("boardDelete.do Fail");
@@ -173,6 +193,9 @@
                 type : "put",
                 contentType: 'application/json;charset=utf-8',
                 data  : JSON.stringify({"idx":idx, "title" : title, "content" : content}),
+                beforeSend: function(xhr){
+                    xhr.setRequestHeader(csrfHeaderName, csrfTokenValue)
+                },
                 success : loadList,
                 error  : function(){
                     alert("boardUpdate Fail");

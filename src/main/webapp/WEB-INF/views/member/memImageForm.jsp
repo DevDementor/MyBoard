@@ -27,7 +27,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">Panel Heading</div>
         <div class="panel-body">
-            <form action="${contextPath}/memImageUpdate.do" method="POST" enctype="multipart/form-data">
+            <form action="${contextPath}/memImageUpdate.do?${_csrf.parameterName}=${_csrf.token}" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="memId" value="${mvo.memId}"/>
                 <table>
                     <tr>
