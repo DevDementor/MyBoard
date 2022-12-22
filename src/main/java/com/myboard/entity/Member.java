@@ -2,6 +2,8 @@ package com.myboard.entity;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class Member {
     private int memIdx;
@@ -12,4 +14,5 @@ public class Member {
     private String memGender;
     private String memEmail;
     private String memProfile; //사진정보
+    private List<AuthVO> authList;
 }
