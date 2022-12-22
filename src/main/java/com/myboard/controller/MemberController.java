@@ -45,7 +45,7 @@ public class MemberController {
             // 누락메세지를 가지고 가기? =>객체바인딩(Model, HttpServletRequest, HttpSession)
             rttr.addFlashAttribute("msgType", "실패 메세지");
             rttr.addFlashAttribute("msg", "모든 내용을 입력하세요.");
-            //rebase test
+            //rebase test_2
             return "redirect:/memJoin.do";
         }
 
