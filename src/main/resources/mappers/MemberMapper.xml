@@ -8,8 +8,10 @@
     </select>
 
     <insert id="memberRegister" parameterType="com.myboard.entity.Member">
-        insert into mem_tbl(memId, memPassword, memName, memAge, memGender, memEmail, memProfile)
-        values (#{memId}, #{memPassword}, #{memName}, #{memAge}, #{memGender}, #{memEmail}, #{memProfile})
+        insert into
+            mem_stbl(memIdx,memID,memPassword,memName,memAge,memGender,memEmail,memProfile)
+        values((select IFNULL(MAX(memIdx)+1,1) from mem_stbl mem),
+               #{memID},#{memPassword},#{memName},#{memAge},#{memGender},#{memEmail},#{memProfile})
     </insert>
 
     <select id="memLogin" resultType="com.myboard.entity.Member">

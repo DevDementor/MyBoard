@@ -5,6 +5,7 @@ import com.myboard.mapper.MemberMapper;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,6 +23,9 @@ public class MemberController {
 
     @Autowired
     MemberMapper memberMapper;
+
+    @Autowired
+    PasswordEncoder pwEncoder;
 
     @RequestMapping("/memJoin.do")
     public String memJoin(){
@@ -41,7 +45,7 @@ public class MemberController {
 
     @RequestMapping("/memRegister.do")
     public String memRegister(Member member, String memPassword, String memPassword2, RedirectAttributes rttr, HttpSession session) {
-        if (member.getMemId() == null || member.getMemId().equals("") || memPassword == null || memPassword.equals("") || memPassword2 == null || memPassword2.equals("") || member.getMemName() == null || member.getMemName().equals("") || member.getMemAge() == 0 || member.getMemGender() == null || member.getMemGender().equals("") || member.getMemEmail() == null || member.getMemEmail().equals("")) {
+        if (member.getMemId() == null || member.getMemId().equals("") || member.getAuthList().size() == 0 || memPassword == null || memPassword.equals("") || memPassword2 == null || memPassword2.equals("") || member.getMemName() == null || member.getMemName().equals("") || member.getMemAge() == 0 || member.getMemGender() == null || member.getMemGender().equals("") || member.getMemEmail() == null || member.getMemEmail().equals("")) {
             // 누락메세지를 가지고 가기? =>객체바인딩(Model, HttpServletRequest, HttpSession)
             rttr.addFlashAttribute("msgType", "실패 메세지");
             rttr.addFlashAttribute("msg", "모든 내용을 입력하세요.");
@@ -55,6 +59,10 @@ public class MemberController {
         }
 
         member.setMemProfile("");
+
+        //비밀번호 암호화
+        String encPassword = pwEncoder.encode(member.getMemPassword());
+        member.setMemPassword(encPassword);
 
         int registerResult = memberMapper.memberRegister(member);
 
