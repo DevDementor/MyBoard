@@ -1,5 +1,6 @@
 package com.myboard.controller;
 
+import com.myboard.entity.AuthVO;
 import com.myboard.entity.Member;
 import com.myboard.mapper.MemberMapper;
 import com.oreilly.servlet.MultipartRequest;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class MemberController {
@@ -67,6 +69,15 @@ public class MemberController {
         int registerResult = memberMapper.memberRegister(member);
 
         if(registerResult == 1){//가입 성공
+            List<AuthVO> list=member.getAuthList();
+            for(AuthVO authVO : list) {
+                if(authVO.getAuth()!=null) {
+                    AuthVO saveVO=new AuthVO();
+                    saveVO.setMemId(member.getMemId()); //회원아이디
+                    saveVO.setAuth(authVO.getAuth()); //회원의권한
+                    memberMapper.authInsert(saveVO);
+                }
+            }
             rttr.addFlashAttribute("msgType","성공 메세지");
             rttr.addFlashAttribute("msg","회원 가입에 성공했습니다.");
 

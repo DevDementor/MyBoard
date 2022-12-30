@@ -1,28 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.myboard.mapper.MemberMapper">
+
+    <resultMap id="MemberMap" type="com.myboard.entity.Member">
+        <id property="memIdx" column="memIdx"/>
+        <id property="memIdx" column="memIdx"/>
+        <result property="memId" column="memId"/>
+        <result property="memPassword" column="memPassword"/>
+        <result property="memName" column="memName"/>
+        <result property="memAge" column="memAge"/>
+        <result property="memGender" column="memGender"/>
+        <result property="memEmail" column="memEmail"/>
+        <result property="memProfile" column="memProfile"/>
+        <collection property="authList" resultMap="authMap">
+        </collection>
+    </resultMap>
+
+    <resultMap type="com.myboard.entity.AuthVO" id="authMap">
+        <id property="no" column="no"/>
+        <result property="memId" column="memId"/>
+        <result property="auth" column="auth"/>
+    </resultMap>
+
     <select id="memRegisterCheck" resultType="com.myboard.entity.Member">
         select *
-        from mem_tbl
+        from mem_stbl
         where memId = #{memId}
     </select>
 
     <insert id="memberRegister" parameterType="com.myboard.entity.Member">
         insert into
-            mem_stbl(memIdx,memID,memPassword,memName,memAge,memGender,memEmail,memProfile)
+            mem_stbl(memIdx,memId,memPassword,memName,memAge,memGender,memEmail,memProfile)
         values((select IFNULL(MAX(memIdx)+1,1) from mem_stbl mem),
-               #{memID},#{memPassword},#{memName},#{memAge},#{memGender},#{memEmail},#{memProfile})
+               #{memId},#{memPassword},#{memName},#{memAge},#{memGender},#{memEmail},#{memProfile})
     </insert>
 
     <select id="memLogin" resultType="com.myboard.entity.Member">
         select *
-        from mem_tbl
+        from mem_stbl
         where memId = #{memId}
           and memPassword = #{password}
     </select>
 
     <update id="memUpdate" parameterType="com.myboard.entity.Member">
-        update mem_tbl
+        update mem_stbl
         set memPassword=#{memPassword},
             memName=#{memName},
             memAge=#{memAge},
@@ -31,11 +52,15 @@
         where memId = #{memId}
     </update>
 
-    <select id="getMember" resultType="com.myboard.entity.Member">
-        select * from mem_tbl where memID=#{memID}
+    <select id="getMember" resultMap="MemberMap">
+        select * from mem_stbl where memId=#{memId}
     </select>
 
     <update id="memProfileUpdate" parameterType="com.myboard.entity.Member">
-        update mem_tbl set memProfile=#{memProfile} where memID=#{memID}
+        update mem_stbl set memProfile=#{memProfile} where memId=#{memId}
     </update>
+
+    <insert id="authInsert" parameterType="com.myboard.entity.AuthVO">
+        INSERT INTO mem_auth(memId, auth) values(#{memId}, #{auth})
+    </insert>
 </mapper>
