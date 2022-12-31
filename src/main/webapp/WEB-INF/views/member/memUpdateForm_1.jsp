@@ -95,6 +95,16 @@
                                                maxlength="20" placeholder="이메일을 입력하세요." value="${mvo.memEmail}"/></td>
                     </tr>
                     <tr>
+                        <td style="width: 110px; vertical-align: middle;">권한</td>
+                        <td colspan="2">
+                            <c:forEach var = "list" items="${mvo.authList}">
+                                <input type="checkbox" name="authList[0].auth" value="ROLE_USER" <c:if test="${list.auth eq 'ROLE_USER'}">checked</c:if>> ROLE_USER
+                                <input type="checkbox" name="authList[1].auth" value="ROLE_MANAGER" <c:if test="${list.auth eq 'ROLE_MANAGER'}">checked</c:if>> ROLE_MANAGER
+                                <input type="checkbox" name="authList[2].auth" value="ROLE_ADMIN" <c:if test="${list.auth eq 'ROLE_ADMIN'}">checked</c:if>> ROLE_ADMIN
+                            </c:forEach>
+                        </td>
+                    </tr>
+                    <tr>
                         <td colspan="3" style="text-align: left;">
                             <span id="passMessage" style="color: red"></span><input type="button"
                                                                                     class="btn btn-primary btn-sm pull-right"

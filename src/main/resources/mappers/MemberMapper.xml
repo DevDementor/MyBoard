@@ -53,7 +53,8 @@
     </update>
 
     <select id="getMember" resultMap="MemberMap">
-        select * from mem_stbl where memId=#{memId}
+        select * from mem_stbl ms left join mem_auth ma on ms.memId = ma.memId
+        where ms.memId=#{memId}
     </select>
 
     <update id="memProfileUpdate" parameterType="com.myboard.entity.Member">

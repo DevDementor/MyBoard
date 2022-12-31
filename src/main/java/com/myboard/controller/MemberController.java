@@ -97,7 +97,8 @@ public class MemberController {
     }
 
     @RequestMapping("/memLoginForm.do")
-    public String memLoginForm() {
+    public String memLoginForm(HttpSession session) {
+
         return "member/memLoginForm";
     }
 
@@ -109,8 +110,6 @@ public class MemberController {
             rttr.addFlashAttribute("msg", "유효한 값을 입력하세요.");
             return "redirect:/memLoginForm.do";
         }
-
-
         //로그인 성공 유무 분기 처리
         Member member = memberMapper.getMember(memId);
 
@@ -127,7 +126,8 @@ public class MemberController {
     }
 
     @RequestMapping("/memUpdateForm.do")
-    public String memUpdateForm() {
+    public String memUpdateForm(HttpSession session) {
+        session.getAttribute("mvo");
         return "member/memUpdateForm_1";
     }
 
