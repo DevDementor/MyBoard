@@ -35,7 +35,7 @@
                #{memId},#{memPassword},#{memName},#{memAge},#{memGender},#{memEmail},#{memProfile})
     </insert>
 
-    <select id="memLogin" resultType="com.myboard.entity.Member">
+    <select id="memLogin" resultMap="MemberMap">
         select *
         from mem_stbl
         where memId = #{memId}

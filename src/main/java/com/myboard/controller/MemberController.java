@@ -110,10 +110,11 @@ public class MemberController {
             return "redirect:/memLoginForm.do";
         }
 
-        //로그인 성공 유무 분기 처리
-        Member member = memberMapper.memLogin(memId, password);
 
-        if(member != null) {
+        //로그인 성공 유무 분기 처리
+        Member member = memberMapper.getMember(memId);
+
+        if(member != null && pwEncoder.matches(password,member.getMemPassword())) {
             session.setAttribute("mvo", member);
             rttr.addFlashAttribute("msgType", "로그인 성공.");
             rttr.addFlashAttribute("msg", "로그인에 성공하였습니다.");
