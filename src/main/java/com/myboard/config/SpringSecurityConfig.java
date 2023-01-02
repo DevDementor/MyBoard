@@ -21,6 +21,22 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         filter.setForceEncoding(true);
         http.addFilterBefore(filter, CsrfFilter.class);
 
+        //보안 설정
+        http
+                .authorizeRequests()
+                    .antMatchers("/")
+                    .permitAll()
+                    .and()
+                .formLogin()
+                    .loginPage("/memLoginForm.do")
+                    .loginProcessingUrl("/memLogin.do")
+                    .permitAll()
+                    .and()
+                .logout()
+                    .invalidateHttpSession(true)
+                    .logoutSuccessUrl("/")
+                    .and()
+                .exceptionHandling().accessDeniedPage("/access-denied");
     }
 
     @Bean
