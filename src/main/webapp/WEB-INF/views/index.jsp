@@ -71,5 +71,16 @@
     </div>
 </div>
 
+<table>
+    <tr>
+        <c:if test="${not empty test_1}">
+            <c:forEach items="${test_1}" var="memberAuth">
+                <td>${memberAuth.memID}</td>
+                <td>${memberAuth.auth}</td>
+            </c:forEach>
+        </c:if>
+    </tr>
+</table>
+
 </body>
 </html>

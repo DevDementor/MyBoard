@@ -64,4 +64,19 @@
     <insert id="authInsert" parameterType="com.myboard.entity.AuthVO">
         INSERT INTO mem_auth(memId, auth) values(#{memId}, #{auth})
     </insert>
+
+    <!--이하 Test-->
+    <!-- 여러 로우를 map으로 리턴시 ==> 결과 실패-->
+    <select id="test_1" resultType="map">
+        select * from mem_stbl ms left join mem_auth ma on ms.memId = ma.memId
+    </select>
+
+    <!-- 여러 로우를 map으로 리턴시 ==> 결과 실패-->
+
+
+    <select id="test_2" resultType="map">
+        select ms.memID,
+               ma.auth  from mem_stbl ms left join mem_auth ma on ms.memId = ma.memId
+    </select>
+
 </mapper>
